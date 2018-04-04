@@ -34,3 +34,4 @@ Swagger API Documentation can be reached after running the app by
 
 http://localhost:8080/swagger-ui.html#/board-controller
 
+![Screenshot](ScreenShot.png)
