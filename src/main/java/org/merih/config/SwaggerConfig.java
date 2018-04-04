@@ -38,7 +38,7 @@ public class SwaggerConfig {
     	
         ApiInfo apiInfo = new ApiInfo(
                 "Scrabble Backend REST API",
-                "Spring Boot REST API for Scrabble Backend Services",
+                "REST API for Scrabble Backend Services",
                 "1.0",
                 "Terms of service",
                 new Contact("Merih ilgör", "https://www.linkedin.com/in/merihilgor/", "merihilgor@gmail.com"),

@@ -32,7 +32,13 @@ public class BoardControllerTests {
 	
 	@Autowired
 	BoardService boardService;
+
 	
+	/*
+	 * REF :
+	 * https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html
+	 * 
+	 */
 	 
 	@Test
 	public void testCreateBoardRestSuccess() {

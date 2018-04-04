@@ -70,7 +70,6 @@ public class Board {
 	public Board() {
 		super();
 		this.content = new String[15][15];
-		
 		content[0][0] = "T";
 		content[0][1] = "A";
 		content[0][2] = "M";
