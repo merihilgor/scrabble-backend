@@ -4,6 +4,7 @@
 package org.merih.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.merih.Model.Board;
 import org.merih.Model.BoardLetter;
@@ -49,7 +50,7 @@ public class BoardController {
 
 	@ApiOperation(value = "get words of a Board with spesified id")
 	@RequestMapping(value = "/{boardId}/getwords", method = RequestMethod.GET, produces = "application/json")
-	public List<String> gettWords(@PathVariable Long boardId) {
+	public Map<Object,Integer> gettWords(@PathVariable Long boardId) {
 		return boardService.gelAllWords(boardId);
 	}
 

@@ -5,7 +5,9 @@ package org.merih.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.OptionalInt;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -32,8 +34,12 @@ public class BoardService {
 		return boardRepository.findById(id).orElse(null);
 	}
 
-	public List<String> gelAllWords(Long id) {
-		return getWords(getBoard(id).getContent());
+	public Map<Object, Integer> gelAllWords(Long id) {
+		Map<Object, Integer> map = getWords(getBoard(id)
+				.getContent()).stream()
+				.collect(Collectors.toMap(e -> e,
+						DictionaryService::calculatePoints));
+		return map;
 	}
 
 	public Board getBoardHistory(Long id, int seq) {
