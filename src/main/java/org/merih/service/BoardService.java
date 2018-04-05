@@ -12,8 +12,12 @@ import java.util.OptionalInt;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.merih.Model.Board;
+import org.merih.Model.BoardHistory;
+import org.merih.Model.BoardHistoryRepository;
 import org.merih.Model.BoardLetter;
 import org.merih.Model.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +32,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class BoardService {
 
 	@Autowired
+	@Resource
 	private BoardRepository boardRepository;
 
+	@Autowired
+	@Resource
+	private BoardHistoryRepository boardHistoryRepository;
+
+	
 	public Board getBoard(Long id) {
 		return boardRepository.findById(id).orElse(null);
 	}
@@ -42,12 +52,13 @@ public class BoardService {
 		return map;
 	}
 
-	public Board getBoardHistory(Long id, int seq) {
-		return boardRepository.findById(id).orElse(null);
+	public List<BoardHistory> getBoardHistory(Long id, int seq) {
+		return boardHistoryRepository.findByBoardAndSequence(getBoard(id),seq);
+
 	}
 
 	public Long addBoard() {
-		Board b = new Board();
+		Board b = new Board();	
 		return boardRepository.save(b).getId();
 	}
 
@@ -132,6 +143,7 @@ public class BoardService {
 								b.setStatus(Board.Status.ACTIVE);
 							}
 							b.setContent(newContent);
+							b.incrementSequence();
 							this.updateBoard(b);
 
 							message = "Congrats ! you got " + totalPoints + " points !";

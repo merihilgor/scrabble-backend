@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.merih.Model.Board;
+import org.merih.Model.BoardHistory;
 import org.merih.Model.BoardLetter;
 import org.merih.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ public class BoardController {
 
 	@ApiOperation(value = "get content of a Board with spesified id")
 	@RequestMapping(value = "/{boardId}/{sequence}", method = RequestMethod.GET, produces = "application/json")
-	public Board getBoardContent(@PathVariable Long boardId, int sequence) {
+	public List<BoardHistory> getBoardContent(@PathVariable Long boardId, @PathVariable int sequence) {
 		return boardService.getBoardHistory(boardId, sequence);
 	}
 

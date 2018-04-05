@@ -11,6 +11,8 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.IntStream;
 
+import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
  */
 @Scope(value = "singleton")
 @Service
+@Resource
 public final class DictionaryService {
 
 	public static final HashMap<Character, Integer> alphabet = new HashMap<>(29);
@@ -65,7 +68,7 @@ public final class DictionaryService {
 	/**
 	 * 
 	 */
-	@SuppressWarnings("resource")
+	
 	public DictionaryService() {
 		super();
 		Scanner file;

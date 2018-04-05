@@ -1,8 +1,14 @@
 /Users/Merih/Documents/workspace/scrabble-backend/src/main/java/org/merih/MyStarter.java
-/Users/Merih/Documents/workspace/scrabble-backend/src/main/java/org/merih/config/SwaggerConfig.java
-/Users/Merih/Documents/workspace/scrabble-backend/src/main/java/org/merih/service/BoardService.java
+/Users/Merih/Documents/workspace/scrabble-backend/src/main/java/org/merih/Model/BoardHistory.java
 /Users/Merih/Documents/workspace/scrabble-backend/src/main/java/org/merih/Model/BoardLetter.java
+/Users/Merih/Documents/workspace/scrabble-backend/src/main/java/org/merih/service/BeanUtil.java
 /Users/Merih/Documents/workspace/scrabble-backend/src/main/java/org/merih/Model/Board.java
+/Users/Merih/Documents/workspace/scrabble-backend/src/main/java/org/merih/Model/Action.java
+/Users/Merih/Documents/workspace/scrabble-backend/src/main/java/org/merih/Model/BoardEntityListener.java
+/Users/Merih/Documents/workspace/scrabble-backend/src/main/java/org/merih/config/SwaggerConfig.java
+/Users/Merih/Documents/workspace/scrabble-backend/src/main/java/org/merih/Model/Auditable.java
+/Users/Merih/Documents/workspace/scrabble-backend/src/main/java/org/merih/service/BoardService.java
 /Users/Merih/Documents/workspace/scrabble-backend/src/main/java/org/merih/service/DictionaryService.java
 /Users/Merih/Documents/workspace/scrabble-backend/src/main/java/org/merih/controllers/BoardController.java
+/Users/Merih/Documents/workspace/scrabble-backend/src/main/java/org/merih/Model/BoardHistoryRepository.java
 /Users/Merih/Documents/workspace/scrabble-backend/src/main/java/org/merih/Model/BoardRepository.java

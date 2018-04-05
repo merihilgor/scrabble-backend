@@ -5,9 +5,12 @@ package org.merih.Model;
 
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.SequenceGenerator;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -17,13 +20,35 @@ import io.swagger.annotations.ApiModelProperty;
  */
 
 @Entity
-public class Board {
+@EntityListeners(BoardEntityListener.class)
+@SequenceGenerator(name="seqboard", initialValue=1, allocationSize=100)
+public class Board extends Auditable<String> {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqboard")
 	@ApiModelProperty(notes = "The database generated Board ID")
 	private Long id;
 
+	private int sequence=0;
+	
+	/**
+	 * @return the sequence
+	 */
+	public int getSequence() {
+		return sequence;
+	}
+
+	/**
+	 * @param sequence the sequence to set
+	 */
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
+	}
+
+	public void incrementSequence() {
+		this.sequence = this.sequence + 1;
+	}
+	
 	@Lob
 	private String[][] content;
 
