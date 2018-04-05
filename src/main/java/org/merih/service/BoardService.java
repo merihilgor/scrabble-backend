@@ -92,8 +92,8 @@ public class BoardService {
 		int totalPoints = 0;
 		Board b = getBoard(boardId);
 		String message = "OK";
-		if (Board.Status.PASSIVE.equals(b.getStatus())) {
-			message = "You can't play on PASSIVE Boards please activate board fist !!";
+		if (!Board.Status.ACTIVE.equals(b.getStatus())) {
+			message = "You can play on ACTIVE Boards only  !!";
 		} else {
 
 			final String[][] existingContent = b.getContent();

@@ -28,6 +28,13 @@ go to target directory
 
 java -jar scrabble-backend-0.0.1-SNAPSHOT.jar
 
+# Logs:
+
+All Request Response Logs can be accessed by Spring actuator support via 
+
+http://localhost:8080/actuator/httptrace
+
+
 # API Documentation 
 
 Swagger API Documentation can be reached after running the app by
