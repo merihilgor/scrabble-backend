@@ -1,9 +1,15 @@
 org/merih/controllers/BoardController.class
 org/merih/Model/Board.class
 org/merih/config/SwaggerConfig.class
+org/merih/Model/Action.class
 org/merih/MyStarter.class
 org/merih/service/DictionaryService.class
+org/merih/service/BeanUtil.class
 org/merih/Model/BoardRepository.class
+org/merih/Model/Auditable.class
+org/merih/Model/BoardHistory.class
 org/merih/service/BoardService.class
 org/merih/Model/Board$Status.class
+org/merih/Model/BoardEntityListener.class
+org/merih/Model/BoardHistoryRepository.class
 org/merih/Model/BoardLetter.class

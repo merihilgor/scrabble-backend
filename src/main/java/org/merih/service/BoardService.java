@@ -93,7 +93,7 @@ public class BoardService {
 		Board b = getBoard(boardId);
 		String message = "OK";
 		if (Board.Status.PASSIVE.equals(b.getStatus())) {
-			message = "You can't play on PASSIVE Boards !!";
+			message = "You can't play on PASSIVE Boards please activate board fist !!";
 		} else {
 
 			final String[][] existingContent = b.getContent();
@@ -104,7 +104,7 @@ public class BoardService {
 			final List<String> existingWords = getWords(existingContent);
 			System.out.println(" existingWords " + getWords(existingContent));
 
-			if (Board.Status.EMPTY.equals(b.getStatus()) || isThereAnyLetterNearBy(existingContent, args)) {
+			if (b.isEmpty() || isThereAnyLetterNearBy(existingContent, args)) {
 
 				if (isAnyLetterNotOverlapping(existingContent, args)) {
 					final String[][] newContent = putLetterstoContent(existingContent, args);
@@ -139,8 +139,8 @@ public class BoardService {
 							totalPoints = newWords.stream().filter(e -> !existingWords.contains(e))
 									.mapToInt(DictionaryService::calculatePoints).sum();
 
-							if (b.getStatus().equals(Board.Status.EMPTY)) {
-								b.setStatus(Board.Status.ACTIVE);
+							if (b.isEmpty()) {
+								b.setEmpty(false);
 							}
 							b.setContent(newContent);
 							b.incrementSequence();
@@ -232,7 +232,7 @@ public class BoardService {
 	private String[][] putLetterstoContent(final String[][] content, BoardLetter... args) {
 		String[][] newcontent = Arrays.stream(content).toArray(String[][]::new);
 		for (BoardLetter L : args) {
-			newcontent[L.getX()][L.getY()] = String.valueOf(L.getLetter());
+			newcontent[L.getX()][L.getY()] = String.valueOf(L.getLetter()).toUpperCase();
 		}
 		return newcontent;
 	}

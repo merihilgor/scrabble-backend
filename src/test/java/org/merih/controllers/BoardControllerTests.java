@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.reactive.server.EntityExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 
@@ -42,17 +43,18 @@ public class BoardControllerTests {
 	 
 	@Test
 	public void testCreateBoardRestSuccess() {
-		
- 
-		this.webClient.post().uri("/board/createboard").exchange().expectStatus().isOk()
-	 	.expectBody(String.class).isEqualTo("3");
+
+		String result = this.webClient.post().uri("/board/createboard").exchange().expectStatus().isOk()
+	 	.expectBody(String.class).returnResult().getResponseBody();
+
+		assertThat(Long.valueOf(result)).isGreaterThan(0);
 	}
 	 
 	@Test
 	public void testCreateBoardSuccess() {
 
-		assertThat(boardService.addBoard()).isEqualTo(1);
-		assertThat(boardService.addBoard()).isEqualTo(2); 
+		assertThat(boardService.addBoard()).isGreaterThan(0);
+
 	}
 
 	 

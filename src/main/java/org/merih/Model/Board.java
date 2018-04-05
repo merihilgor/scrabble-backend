@@ -3,7 +3,6 @@
  */
 package org.merih.Model;
 
-
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -21,34 +20,18 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @EntityListeners(BoardEntityListener.class)
-@SequenceGenerator(name="seqboard", initialValue=1, allocationSize=100)
+@SequenceGenerator(name = "seqboard", initialValue = 1, allocationSize = 100)
 public class Board extends Auditable<String> {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqboard")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqboard")
 	@ApiModelProperty(notes = "The database generated Board ID")
 	private Long id;
 
-	private int sequence=0;
-	
-	/**
-	 * @return the sequence
-	 */
-	public int getSequence() {
-		return sequence;
-	}
+	private int sequence = 0;
 
-	/**
-	 * @param sequence the sequence to set
-	 */
-	public void setSequence(int sequence) {
-		this.sequence = sequence;
-	}
+	private boolean isEmpty;
 
-	public void incrementSequence() {
-		this.sequence = this.sequence + 1;
-	}
-	
 	@Lob
 	private String[][] content;
 
@@ -68,7 +51,7 @@ public class Board extends Auditable<String> {
 	}
 
 	public enum Status {
-		EMPTY, ACTIVE, PASSIVE;
+		ACTIVE, PASSIVE;
 	}
 
 	@Lob
@@ -95,27 +78,7 @@ public class Board extends Auditable<String> {
 	public Board() {
 		super();
 		this.content = new String[15][15];
-		content[0][0] = "T";
-		content[0][1] = "A";
-		content[0][2] = "M";
-
-		content[0][4] = "Y";
-		content[0][5] = "E";
-		content[0][6] = "M";
-
-		content[4][0] = "G";
-		content[4][1] = "E";
-		content[4][2] = "M";
-
-		content[4][4] = "Z";
-		content[5][4] = "A";
-		content[6][4] = "M";
-
-		content[8][4] = "M";
-		content[9][4] = "A";
-		content[10][4] = "T";
-
-		this.status = Status.EMPTY;
+		this.isEmpty = true;
 	}
 
 	/**
@@ -132,5 +95,39 @@ public class Board extends Auditable<String> {
 	public void setId(Long id) {
 		this.id = id;
 	}
- 
+
+	/**
+	 * @return the sequence
+	 */
+	public int getSequence() {
+		return sequence;
+	}
+
+	/**
+	 * @param sequence
+	 *            the sequence to set
+	 */
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
+	}
+
+	public void incrementSequence() {
+		this.sequence = this.sequence + 1;
+	}
+
+	/**
+	 * @return the isEmpty
+	 */
+	public boolean isEmpty() {
+		return isEmpty;
+	}
+
+	/**
+	 * @param isEmpty
+	 *            the isEmpty to set
+	 */
+	public void setEmpty(boolean isEmpty) {
+		this.isEmpty = isEmpty;
+	}
+
 }
