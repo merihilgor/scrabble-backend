@@ -5,16 +5,13 @@ package org.merih.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.OptionalInt;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.StringUtils;
 import org.merih.Model.Board;
 import org.merih.Model.BoardHistory;
 import org.merih.Model.BoardHistoryRepository;
@@ -22,7 +19,6 @@ import org.merih.Model.BoardLetter;
 import org.merih.Model.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * @author Merih
@@ -39,26 +35,23 @@ public class BoardService {
 	@Resource
 	private BoardHistoryRepository boardHistoryRepository;
 
-	
 	public Board getBoard(Long id) {
 		return boardRepository.findById(id).orElse(null);
 	}
 
 	public Map<Object, Integer> gelAllWords(Long id) {
-		Map<Object, Integer> map = getWords(getBoard(id)
-				.getContent()).stream()
-				.collect(Collectors.toMap(e -> e,
-						DictionaryService::calculatePoints));
+		Map<Object, Integer> map = getWords(getBoard(id).getContent()).stream()
+				.collect(Collectors.toMap(e -> e, DictionaryService::calculatePoints));
 		return map;
 	}
 
 	public List<BoardHistory> getBoardHistory(Long id, int seq) {
-		return boardHistoryRepository.findByBoardAndSequence(getBoard(id),seq);
+		return boardHistoryRepository.findByBoardAndSequence(getBoard(id), seq);
 
 	}
 
 	public Long addBoard() {
-		Board b = new Board();	
+		Board b = new Board();
 		return boardRepository.save(b).getId();
 	}
 
@@ -99,10 +92,8 @@ public class BoardService {
 			final String[][] existingContent = b.getContent();
 
 			final List<String> exisitngThings = getEverything(existingContent);
-			System.out.println(" exisitngThings " + getEverything(existingContent));
 
 			final List<String> existingWords = getWords(existingContent);
-			System.out.println(" existingWords " + getWords(existingContent));
 
 			if (b.isEmpty() || isThereAnyLetterNearBy(existingContent, args)) {
 
@@ -112,30 +103,19 @@ public class BoardService {
 					final List<String> newWords = getWords(newContent).stream().filter(e -> !existingWords.contains(e))
 							.collect(Collectors.toCollection(ArrayList::new));
 
-					System.out.println(" newWords " + newWords);
-
-					System.out.println("  getEverything(newContent) " + getEverything(newContent));
-					System.out.println(" exisitngThings " + exisitngThings);
-
-					// Horizontal and vertical word candidates
 					final List<String> newThings = getEverything(newContent).stream()
 							.filter(e -> !exisitngThings.contains(e)).collect(Collectors.toCollection(ArrayList::new));
 
-					System.out.println(" newThings " + newThings);
-
 					final List<String> nonWords = newThings.stream().filter(s -> s.length() > 1)
 							.filter(e -> !newWords.contains(e)).collect(Collectors.toCollection(ArrayList::new));
-					System.out.println(" non words " + nonWords);
 
 					if (!nonWords.isEmpty()) {
-						System.out.println(" non words " + nonWords);
 						message = "Words not found in Dictionary :  " + nonWords.toString();
 					} else {
 						if (newWords.isEmpty()) {
 							message = "Words not found in Dictionary :  " + newThings.toString();
 
 						} else {
-							System.out.println(" new words " + newWords);
 							totalPoints = newWords.stream().filter(e -> !existingWords.contains(e))
 									.mapToInt(DictionaryService::calculatePoints).sum();
 
@@ -204,7 +184,7 @@ public class BoardService {
 		IntStream.range(0, content.length).forEach(x -> {
 			final String row = Arrays.toString(content[x]).replaceAll("[\\W]|_", "").concat(terminator)
 					.replaceAll(terminator, ",");
-			// System.out.println(row);
+
 			words.addAll(Arrays.asList(row.split(",")));
 
 		});
@@ -218,14 +198,9 @@ public class BoardService {
 		});
 		String colStr = col.toString();
 
-		// System.out.println(colStr);
 		words.addAll(Arrays.asList(colStr.split(terminator)));
 
-		// System.out.println(words);
-
-		return words.stream().filter(s -> s.length() > 0)
-				// .filter(StringUtils::isNotBlank)
-				.collect(Collectors.toCollection(ArrayList::new));
+		return words.stream().filter(s -> s.length() > 0).collect(Collectors.toCollection(ArrayList::new));
 
 	}
 

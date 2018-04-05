@@ -20,10 +20,10 @@ import static javax.persistence.TemporalType.TIMESTAMP;
  */
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@SequenceGenerator(name = "seqboardhistory", initialValue = 1, allocationSize = 100)
 public class BoardHistory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqboardhistory")
+	@SequenceGenerator(name = "seqboardhistory",sequenceName = "seqboardhistory", initialValue = 1, allocationSize = 100)
 	private Long historyId;
 
 	private int sequence;

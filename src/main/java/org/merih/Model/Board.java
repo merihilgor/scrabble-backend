@@ -20,11 +20,12 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @EntityListeners(BoardEntityListener.class)
-@SequenceGenerator(name = "seqboard", initialValue = 1, allocationSize = 100)
+
 public class Board extends Auditable<String> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqboard")
+	@SequenceGenerator(name = "seqboard", sequenceName ="seqboard", initialValue = 1, allocationSize = 100)
 	@ApiModelProperty(notes = "The database generated Board ID")
 	private Long id;
 

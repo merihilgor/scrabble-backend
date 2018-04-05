@@ -36,33 +36,33 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 
-	@ApiOperation(value = "Create a 15x15 Board  left upper is x =0, y = 0")
+	@ApiOperation(value = "Create a 15x15 Board left upper is x =0, y = 0 and returns boardId" )
 	@RequestMapping(value = "/createboard", method = RequestMethod.POST)
 	public Long createBoard() {
 		return boardService.addBoard();
 	}
 
-	@ApiOperation(value = "put letters with x,y indexes on created Board with id")
+	@ApiOperation(value = "put letters with x,y indexes on created Board with boardId which is returned from /createboard service")
 	@RequestMapping(method = RequestMethod.PUT, value = "/{boardId}/play", produces = "application/json")
 	public ResponseEntity<String> play(@PathVariable Long boardId, @RequestBody BoardLetter[] moves) {
 		String message = boardService.play(boardId, moves);
 		return new ResponseEntity<String>(message, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "get words of a Board with spesified id")
+	@ApiOperation(value = "get words of a Board with spesified boardId")
 	@RequestMapping(value = "/{boardId}/getwords", method = RequestMethod.GET, produces = "application/json")
 	public Map<Object,Integer> gettWords(@PathVariable Long boardId) {
 		return boardService.gelAllWords(boardId);
 	}
 
-	@ApiOperation(value = "get content of a Board with spesified id")
+	@ApiOperation(value = "get content of a Board with spesified boardId and move sequence(from 0 to play sequence)")
 	@RequestMapping(value = "/{boardId}/{sequence}", method = RequestMethod.GET, produces = "application/json")
 	public List<BoardHistory> getBoardContent(@PathVariable Long boardId, @PathVariable int sequence) {
 		return boardService.getBoardHistory(boardId, sequence);
 	}
 
-	@SuppressWarnings("unchecked")
-	@ApiOperation(value = "Set status of a Board with spesified id")
+
+	@ApiOperation(value = "Set status of a Board with spesified boardId")
 	@RequestMapping(method = RequestMethod.PUT, value = "/updatestatus/{boardId}", produces = "application/json")
 	public ResponseEntity<String> setStatus(@PathVariable Long boardId, @RequestBody Board.Status status) {
 		String message = boardService.updateStatus(boardId, status);

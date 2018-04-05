@@ -1,2 +1,3 @@
 org/merih/service/DictionaryServiceTest.class
+org/merih/service/BoardServiceTest.class
 org/merih/controllers/BoardControllerTests.class
