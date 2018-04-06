@@ -56,10 +56,10 @@ public class BoardControllerTests {
 	public void testSetStatusRestSuccess() {
 
 		Long boardId = boardService.addBoard();
-		this.webClient.put().uri("board/updatestatus/" + String.valueOf(boardId))
+		assertThat(this.webClient.put().uri("board/updatestatus/" + String.valueOf(boardId))
 				.contentType(MediaType.APPLICATION_JSON_UTF8).accept(MediaType.APPLICATION_JSON_UTF8)
 				.body(BodyInserters.fromObject("\"ACTIVE\"")).exchange().expectStatus().isOk().expectBody(String.class)
-				.returnResult().getResponseBody().contains("Status updated succesfully");
+				.returnResult().getResponseBody().contains("Status updated succesfully")).isTrue();
 
 	}
 
@@ -89,10 +89,10 @@ public class BoardControllerTests {
 		moves.add(a);
 		moves.add(m);
 
-		this.webClient.put().uri("board/" + String.valueOf(boardId) + "/play")
+		assertThat(this.webClient.put().uri("board/" + String.valueOf(boardId) + "/play")
 				.contentType(MediaType.APPLICATION_JSON_UTF8).accept(MediaType.APPLICATION_JSON_UTF8)
 				.body(BodyInserters.fromObject(moves)).exchange().expectStatus().isOk().expectBody(String.class)
-				.returnResult().getResponseBody().contains("Congrats");
+				.returnResult().getResponseBody().contains("Congrats")).isTrue();
 
 	}
 
@@ -121,8 +121,8 @@ public class BoardControllerTests {
 
 		boardService.play(boardId, moves);
 
-		this.webClient.get().uri("board/" + String.valueOf(boardId) + "/getwords").exchange().expectStatus().isOk()
-				.expectBody(String.class).returnResult().getResponseBody().contains("CAM");
+		assertThat(this.webClient.get().uri("board/" + String.valueOf(boardId) + "/getwords").exchange().expectStatus().isOk()
+				.expectBody(String.class).returnResult().getResponseBody().contains("CAM")).isTrue();
 
 	}
 
@@ -152,10 +152,10 @@ public class BoardControllerTests {
 		boardService.play(boardId, moves);
 
 		assertThat(this.webClient.get().uri("board/" + String.valueOf(boardId) + "/0").exchange().expectStatus().isOk()
-				.expectBody(String.class).returnResult().getResponseBody().contains("CAM")).isFalse();
-
-		this.webClient.get().uri("board/" + String.valueOf(boardId) + "/1").exchange().expectStatus().isOk()
-				.expectBody(String.class).returnResult().getResponseBody().contains("CAM");
+				.expectBody(String.class).returnResult().getResponseBody().replaceAll("[\\W]|_", "").replaceAll("null", "").contains("CAM")).isFalse();
+ 
+		assertThat(this.webClient.get().uri("board/" + String.valueOf(boardId) + "/1").exchange().expectStatus().isOk()
+				.expectBody(String.class).returnResult().getResponseBody().replaceAll("[\\W]|_", "").replaceAll("null", "").contains("CAM")).isTrue();
 	}
 
 }

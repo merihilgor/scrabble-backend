@@ -157,7 +157,7 @@ public class BoardService {
 				nearbyLetters.append(content[x][y]);
 			});
 		});
-
+     
 		isThereAny = !nearbyLetters.toString().replaceAll("null", "").isEmpty();
 
 		return isThereAny;
@@ -175,7 +175,7 @@ public class BoardService {
 		return isNotOverLapping;
 	}
 
-	private List<String> getEverything(final String[][] content) {
+	List<String> getEverything(final String[][] content) {
 
 		List<String> words = new ArrayList<>();
 		String terminator = "null";
@@ -205,7 +205,7 @@ public class BoardService {
 	}
 
 	private String[][] putLetterstoContent(final String[][] content, BoardLetter... args) {
-		String[][] newcontent = Arrays.stream(content).toArray(String[][]::new);
+		String[][] newcontent = Arrays.stream(content).map(String[]::clone).toArray(String[][]::new);
 		for (BoardLetter L : args) {
 			newcontent[L.getX()][L.getY()] = String.valueOf(L.getLetter()).toUpperCase();
 		}
