@@ -256,6 +256,80 @@ public class BoardServiceTest {
 	}
 
 	@Test
+	public void testPlaytSameWordTestSuccess() {
+
+		Long boardId = boardService.addBoard();
+		boardService.updateStatus(boardId, Board.Status.ACTIVE);
+
+		BoardLetter m = new BoardLetter();
+		m.setX(0);
+		m.setY(0);
+		m.setLetter('M');
+
+		BoardLetter a = new BoardLetter();
+		a.setX(1);
+		a.setY(0);
+		a.setLetter('A');
+
+		BoardLetter s = new BoardLetter();
+		s.setX(2);
+		s.setY(0);
+		s.setLetter('s');
+
+		BoardLetter aa = new BoardLetter();
+		aa.setX(3);
+		aa.setY(0);
+		aa.setLetter('A');
+
+		BoardLetter[] move1 = { m, a, s, aa };
+
+		boardService.play(boardId, move1);
+
+		BoardLetter L = new BoardLetter();
+		L.setX(4);
+		L.setY(0);
+		L.setLetter('L');
+
+		BoardLetter A = new BoardLetter();
+		A.setX(4);
+		A.setY(1);
+		A.setLetter('A');
+
+		BoardLetter LL = new BoardLetter();
+		LL.setX(4);
+		LL.setY(2);
+		LL.setLetter('L');
+
+		BoardLetter E = new BoardLetter();
+		E.setX(4);
+		E.setY(3);
+		E.setLetter('E');
+
+		BoardLetter[] move2 = { L, A, LL, E };
+		// MASAL and LALE total 12 points
+		boardService.play(boardId, move2);
+		
+		 
+		m.setX(0);
+		m.setY(2);
+	
+		a.setX(1);
+		a.setY(2);
+		
+		s.setX(2);
+		s.setY(2);
+		
+		aa.setX(3);
+		aa.setY(2);
+		
+		BoardLetter[] move3 = { m, a, s, aa };
+	 	assertThat(boardService.play(boardId, move3).contains("Congrats")).isTrue();
+		
+		
+	}
+	
+	
+	@Test
 	public void testGetWordsSuccess() {
 
 		Long boardId = boardService.addBoard();

@@ -5,6 +5,7 @@ package org.merih.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import java.util.stream.IntStream;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.merih.Model.Board;
 import org.merih.Model.BoardHistory;
 import org.merih.Model.BoardHistoryRepository;
@@ -100,15 +102,20 @@ public class BoardService {
 				if (isAnyLetterNotOverlapping(existingContent, args)) {
 					final String[][] newContent = putLetterstoContent(existingContent, args);
 
-					final List<String> newWords = getWords(newContent).stream().filter(e -> !existingWords.contains(e))
+				    List<String> newWords = getWords(newContent);
+				    //newWords.removeAll(existingWords);
+				    newWords = new ArrayList<>(CollectionUtils.subtract(newWords,existingWords));
+				    
+				     List<String> newThings = getEverything(newContent);
+				   //  newThings.removeAll(exisitngThings);
+				     newThings = new ArrayList<>(CollectionUtils.subtract(newThings,exisitngThings));
+						
+					 List<String> nonWords = newThings.stream().filter(s -> s.length() > 1)
 							.collect(Collectors.toCollection(ArrayList::new));
-
-					final List<String> newThings = getEverything(newContent).stream()
-							.filter(e -> !exisitngThings.contains(e)).collect(Collectors.toCollection(ArrayList::new));
-
-					final List<String> nonWords = newThings.stream().filter(s -> s.length() > 1)
-							.filter(e -> !newWords.contains(e)).collect(Collectors.toCollection(ArrayList::new));
-
+					// nonWords.removeAll(newWords);
+					 nonWords = new ArrayList<>(CollectionUtils.subtract(nonWords,newWords));
+						
+					
 					if (!nonWords.isEmpty()) {
 						message = "Words not found in Dictionary :  " + nonWords.toString();
 					} else {
@@ -116,7 +123,8 @@ public class BoardService {
 							message = "Words not found in Dictionary :  " + newThings.toString();
 
 						} else {
-							totalPoints = newWords.stream().filter(e -> !existingWords.contains(e))
+						 	
+							totalPoints = newWords.stream()
 									.mapToInt(DictionaryService::calculatePoints).sum();
 
 							if (b.isEmpty()) {
@@ -152,13 +160,12 @@ public class BoardService {
 		int maxY = Arrays.stream(args).mapToInt(y -> y.getY() < content.length - 1 ? y.getY() + 1 : y.getY()).max()
 				.orElse(0);
 
-		IntStream.range(minX, maxX).forEach(x -> {
-			IntStream.range(minY, maxY).forEach(y -> {
+	 	IntStream.rangeClosed(minX, maxX ).forEach(x -> {
+			IntStream.rangeClosed(minY, maxY).forEach(y -> {
 				nearbyLetters.append(content[x][y]);
-			});
+	 		});
 		});
-     
-		isThereAny = !nearbyLetters.toString().replaceAll("null", "").isEmpty();
+     	isThereAny = !nearbyLetters.toString().replaceAll("null", "").isEmpty();
 
 		return isThereAny;
 	}
