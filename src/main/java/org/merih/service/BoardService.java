@@ -102,20 +102,17 @@ public class BoardService {
 				if (isAnyLetterNotOverlapping(existingContent, args)) {
 					final String[][] newContent = putLetterstoContent(existingContent, args);
 
-				    List<String> newWords = getWords(newContent);
-				    //newWords.removeAll(existingWords);
-				    newWords = new ArrayList<>(CollectionUtils.subtract(newWords,existingWords));
-				    
-				     List<String> newThings = getEverything(newContent);
-				   //  newThings.removeAll(exisitngThings);
-				     newThings = new ArrayList<>(CollectionUtils.subtract(newThings,exisitngThings));
-						
-					 List<String> nonWords = newThings.stream().filter(s -> s.length() > 1)
+					List<String> newWords = getWords(newContent);
+					newWords = new ArrayList<>(CollectionUtils.subtract(newWords, existingWords));
+
+					List<String> newThings = getEverything(newContent);
+					newThings = new ArrayList<>(CollectionUtils.subtract(newThings, exisitngThings));
+
+					List<String> nonWords = newThings.stream().filter(s -> s.length() > 1)
 							.collect(Collectors.toCollection(ArrayList::new));
-					// nonWords.removeAll(newWords);
-					 nonWords = new ArrayList<>(CollectionUtils.subtract(nonWords,newWords));
-						
-					
+
+					nonWords = new ArrayList<>(CollectionUtils.subtract(nonWords, newWords));
+
 					if (!nonWords.isEmpty()) {
 						message = "Words not found in Dictionary :  " + nonWords.toString();
 					} else {
@@ -123,9 +120,8 @@ public class BoardService {
 							message = "Words not found in Dictionary :  " + newThings.toString();
 
 						} else {
-						 	
-							totalPoints = newWords.stream()
-									.mapToInt(DictionaryService::calculatePoints).sum();
+
+							totalPoints = newWords.stream().mapToInt(DictionaryService::calculatePoints).sum();
 
 							if (b.isEmpty()) {
 								b.setEmpty(false);
@@ -152,20 +148,21 @@ public class BoardService {
 
 		boolean isThereAny = false;
 		StringBuilder nearbyLetters = new StringBuilder();
-		int minX = Arrays.stream(args).mapToInt(x -> x.getX() > 0 ? x.getX() - 1 : x.getX()).min().orElse(15);
-		int minY = Arrays.stream(args).mapToInt(y -> y.getY() > 0 ? y.getY() - 1 : y.getY()).min().orElse(15);
 
-		int maxX = Arrays.stream(args).mapToInt(x -> x.getX() < content.length - 1 ? x.getX() + 1 : x.getX()).max()
-				.orElse(0);
-		int maxY = Arrays.stream(args).mapToInt(y -> y.getY() < content.length - 1 ? y.getY() + 1 : y.getY()).max()
-				.orElse(0);
+		for (BoardLetter L : args) {
 
-	 	IntStream.rangeClosed(minX, maxX ).forEach(x -> {
-			IntStream.rangeClosed(minY, maxY).forEach(y -> {
-				nearbyLetters.append(content[x][y]);
-	 		});
-		});
-     	isThereAny = !nearbyLetters.toString().replaceAll("null", "").isEmpty();
+			if (L.getY() > 0)
+				nearbyLetters.append(content[L.getX()][L.getY() - 1]);
+			if (L.getY() < content.length)
+				nearbyLetters.append(content[L.getX()][L.getY() + 1]);
+			if (L.getX() > 0)
+				nearbyLetters.append(content[L.getX() - 1][L.getY()]);
+			if (L.getX() < content.length)
+				nearbyLetters.append(content[L.getX() + 1][L.getY()]);
+
+		}
+ 
+		isThereAny = !nearbyLetters.toString().replaceAll("null", "").isEmpty();
 
 		return isThereAny;
 	}

@@ -255,6 +255,62 @@ public class BoardServiceTest {
 		assertThat(boardService.play(boardId, move2).contains("Congrats ! you got 12 points !")).isTrue();
 	}
 
+	
+	@Test
+	public void testPlaytEdgetoAnotherTestSuccess() {
+
+		Long boardId = boardService.addBoard();
+		boardService.updateStatus(boardId, Board.Status.ACTIVE);
+
+		BoardLetter m = new BoardLetter();
+		m.setX(0);
+		m.setY(0);
+		m.setLetter('M');
+
+		BoardLetter a = new BoardLetter();
+		a.setX(1);
+		a.setY(0);
+		a.setLetter('A');
+
+		BoardLetter s = new BoardLetter();
+		s.setX(2);
+		s.setY(0);
+		s.setLetter('s');
+
+		BoardLetter aa = new BoardLetter();
+		aa.setX(3);
+		aa.setY(0);
+		aa.setLetter('A');
+
+		BoardLetter[] move1 = { m, a, s, aa };
+
+		boardService.play(boardId, move1);
+
+		BoardLetter L = new BoardLetter();
+		L.setX(4);
+		L.setY(1);
+		L.setLetter('L');
+
+		BoardLetter A = new BoardLetter();
+		A.setX(4);
+		A.setY(2);
+		A.setLetter('A');
+
+		BoardLetter LL = new BoardLetter();
+		LL.setX(4);
+		LL.setY(3);
+		LL.setLetter('L');
+
+		BoardLetter E = new BoardLetter();
+		E.setX(4);
+		E.setY(4);
+		E.setLetter('E');
+
+		BoardLetter[] move2 = { L, A, LL, E };
+		 
+		assertThat(boardService.play(boardId, move2).contains("You should start from next to another word")).isTrue();
+	}
+	
 	@Test
 	public void testPlaytSameWordTestSuccess() {
 
